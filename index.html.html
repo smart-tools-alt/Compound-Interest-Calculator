@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-14PX25MEYE"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-14PX25MEYE');
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>מחשבון ריבית דריבית | חישוב תשואה על השקעות</title>
+    <meta name="description" content="מחשבון ריבית דריבית מתקדם - חשבו בקלות את התשואה על ההשקעות שלכם">
+    
+    <!-- Hreflang tags -->
+    <link rel="alternate" hreflang="he" href="https://smart-tools-alt.github.io/Compound-Interest-Calculator/" />
+    <link rel="alternate" hreflang="ar" href="https://smart-tools-alt.github.io/Compound-Interest-Calculator/ar/" />
+    <link rel="alternate" hreflang="es" href="https://smart-tools-alt.github.io/Compound-Interest-Calculator/es/" />
+    <link rel="alternate" hreflang="x-default" href="https://smart-tools-alt.github.io/Compound-Interest-Calculator/" />
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=Cairo:wght@300;400;600;700;800&display=swap');
+        
+        :root {
+            --primary: #0f172a;
+            --secondary: #1e293b;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --royal-blue: #2563eb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .language-switcher {
+            display: flex;
+            flex-direction: row;
+            direction: ltr !important;
+            gap: 0.5rem;
+            justify-content: center;
+            padding: 1rem 0 0.5rem;
+            background: transparent;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .lang-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            color: white;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            flex: 1;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .lang-btn.active {
+            background: white;
+            color: var(--royal-blue);
+            border-color: white;
+        }
+        
+        .hero {
+            background: var(--royal-blue);
+            padding: 0 1.5rem 6rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            color: white;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+            animation: fadeInUp 0.6s ease-out;
+            padding-top: 1rem;
+            font-family: 'Almarai', sans-serif;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: -4rem auto 3rem;
+            padding: 0 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .calculator-wrapper {
+            background: white;
+            border-radius: 24px;
+            box-shadow: var(--shadow-xl), 0 0 0 1px rgba(0, 0, 0, 0.05);
+            padding: clamp(2rem, 5vw, 3rem);
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        }
+        
+        .form-section {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        @media (min-width: 768px) {
+            .form-section {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .input-group label {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            transform: translateY(-1px);
+        }
+        
+        input[type="number"]:hover {
+            border-color: var(--accent);
+        }
+        
+        .calculate-btn {
+            width: 100%;
+            padding: 1.25rem 2rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+            font-family: inherit;
+        }
+        
+        .calculate-btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 12px -2px rgba(59, 130, 246, 0.4);
+        }
+        
+        .results {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--border);
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .results-grid {
+            display: grid;
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .results-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        .result-card {
+            background: var(--bg-secondary);
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .result-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.15);
+            transform: translateY(-4px);
+        }
+        
+        .result-card h3 {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .result-card .value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            word-break: break-word;
+        }
+        
+        .result-card.highlight {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05));
+            border-color: var(--accent);
+        }
+        
+        .result-card.highlight .value {
+            color: var(--accent);
+        }
+        
+        .chart-container {
+            background: var(--bg-secondary);
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            margin-top: 1.25rem;
+            height: 400px;
+            position: relative;
+            width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 300px;
+                padding: 1rem;
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .info-section {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 1.5rem;
+        }
+        
+        .explanation {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 3rem;
+        }
+        
+        .explanation h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .explanation p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        
+        .info-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .info-card h3 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .info-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        footer {
+            background: var(--royal-blue);
+            color: white;
+            padding: 3rem 1.5rem 2rem;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h4 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-section p, .footer-section ul {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-section ul li {
+            padding: 0.25rem 0;
+            padding-right: 1.5rem;
+            position: relative;
+        }
+        
+        .footer-section ul li::before {
+            content: '•';
+            position: absolute;
+            right: 0;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+        }
+        
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.875rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .calculator-wrapper { padding: 1.5rem; }
+            .form-section { grid-template-columns: 1fr; }
+            .results-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .result-card .value { font-size: 1.35rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="hero-content">
+            <div class="language-switcher">
+                <a href="/es/" class="lang-btn">Español</a>
+                <a href="/en/" class="lang-btn">English</a>
+                <a href="/ar/" class="lang-btn">العربية</a>
+                <a href="/" class="lang-btn active">עברית</a>
+            </div>
+            <h1>מחשבון ריבית דריבית</h1>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="calculator-wrapper">
+            <form class="form-section" onsubmit="calculateCompound(event)">
+                <div class="input-group">
+                    <label for="principal">סכום התחלתי</label>
+                    <input type="number" id="principal" min="0" step="any">
+                </div>
+
+                <div class="input-group">
+                    <label for="monthly">הפקדה חודשית</label>
+                    <input type="number" id="monthly" min="0" step="any">
+                </div>
+
+                <div class="input-group">
+                    <label for="rate">ריבית שנתית (%)</label>
+                    <input type="number" id="rate" min="0" step="any">
+                </div>
+
+                <div class="input-group">
+                    <label for="years">תקופה (שנים)</label>
+                    <input type="number" id="years" min="0" step="any">
+                </div>
+
+                <div style="grid-column: 1 / -1;">
+                    <button type="submit" class="calculate-btn">חשב</button>
+                </div>
+            </form>
+
+            <div class="results" id="results">
+                <div class="results-grid">
+                    <div class="result-card highlight">
+                        <h3>סכום סופי</h3>
+                        <div class="value" id="final-amount">0</div>
+                    </div>
+                    <div class="result-card">
+                        <h3>סך הפקדות</h3>
+                        <div class="value" id="total-contributions">0</div>
+                    </div>
+                    <div class="result-card">
+                        <h3>רווח מריבית</h3>
+                        <div class="value" id="interest-earned">0</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="growthChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-section">
+        <div class="explanation">
+            <h2>מה זה ריבית דריבית?</h2>
+            <p>ריבית דריבית היא תופעה פיננסית שבה הריבית שמרוויחים מצטרפת לקרן המקורית, וממשיכה להרוויח ריבית בעצמה. במילים פשוטות - זה "ריבית על הריבית".</p>
+            <p>בניגוד לריבית פשוטה שמחושבת רק על הסכום המקורי, ריבית דריבית גורמת להשקעה לצמוח בקצב מואץ לאורך זמן. ככל שתקופת ההשקעה ארוכה יותר, כך ההשפעה של הריבית דריבית חזקה יותר.</p>
+        </div>
+
+        <div class="info-card">
+            <h3>הידעתם?</h3>
+            <p>אלברט איינשטיין כינה את הריבית דריבית כפלא השמיני בתבל - מי שמבין זאת, מרוויח. מי שלא - משלם.</p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h4>אודות</h4>
+                    <p>מחשבון ריבית דריבית מתקדם המאפשר לכם לחשב בקלות את התשואה הצפויה על ההשקעות שלכם ולתכנן את העתיד הפיננסי שלכם.</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>הצהרת אחריות</h4>
+                    <p>המידע והכלים באתר זה הם למטרות חינוכיות בלבד ואינם מהווים ייעוץ פיננסי, השקעתי או מקצועי. תמיד התייעצו עם יועץ פיננסי מוסמך.</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>תנאי שימוש</h4>
+                    <ul>
+                        <li>השימוש באתר הוא על אחריותכם הבלבדית</li>
+                        <li>החישובים מבוססים על הנתונים שהזנתם</li>
+                        <li>התוצאות הן הערכות בלבד</li>
+                        <li>איננו אחראים להחלטות השקעה</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2026 מחשבון ריבית דריבית. כל הזכויות שמורות.</p>
+                <p style="margin-top: 0.5rem; font-size: 0.75rem;">מדיניות פרטיות: אנחנו לא אוספים או שומרים מידע אישי. כל החישובים נעשים בדפדפן שלכם.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function calculateCompound(event) {
+            event.preventDefault();
+            
+            const principal = parseFloat(document.getElementById('principal').value) || 0;
+            const monthly = parseFloat(document.getElementById('monthly').value) || 0;
+            const rate = parseFloat(document.getElementById('rate').value) || 0;
+            const years = parseFloat(document.getElementById('years').value) || 0;
+            
+            const annualRate = rate / 100;
+            let balance = principal;
+            let totalContributions = principal;
+            const balanceData = [principal];
+            const contributionsData = [principal];
+            
+            for (let year = 1; year <= years; year++) {
+                const yearlyContribution = monthly * 12;
+                balance += yearlyContribution;
+                totalContributions += yearlyContribution;
+                balance = balance * (1 + annualRate);
+                
+                balanceData.push(balance);
+                contributionsData.push(totalContributions);
+            }
+            
+            const finalAmount = balance;
+            const interestEarned = finalAmount - totalContributions;
+            
+            document.getElementById('final-amount').textContent = formatNumber(finalAmount);
+            document.getElementById('total-contributions').textContent = formatNumber(totalContributions);
+            document.getElementById('interest-earned').textContent = formatNumber(interestEarned);
+            
+            updateChart(balanceData, contributionsData);
+            
+            setTimeout(() => {
+                document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+        }
+
+        function formatNumber(num) {
+            return new Intl.NumberFormat('he-IL', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(Math.round(num));
+        }
+
+        let chartInstance = null;
+
+        function updateChart(balanceData, contributionsData) {
+            const ctx = document.getElementById('growthChart').getContext('2d');
+            
+            if (balanceData.length === 0 || balanceData.every(val => val === 0)) {
+                if (chartInstance) chartInstance.destroy();
+                chartInstance = new Chart(ctx, {
+                    type: 'line',
+                    data: { labels: [], datasets: [] },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { grid: { display: true }, border: { display: true }, ticks: { display: false } },
+                            y: { beginAtZero: true, ticks: { display: false }, grid: { display: true }, border: { display: true } }
+                        }
+                    }
+                });
+                return;
+            }
+            
+            const labels = balanceData.map((_, index) => index === 0 ? 'התחלה' : `שנה ${index}`);
+
+            if (chartInstance) chartInstance.destroy();
+
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'יתרה כוללת',
+                            data: balanceData,
+                            borderColor: 'rgb(59, 130, 246)',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 4,
+                            pointHoverRadius: 6
+                        },
+                        {
+                            label: 'סך הפקדות',
+                            data: contributionsData,
+                            borderColor: 'rgb(16, 185, 129)',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            borderWidth: 2,
+                            fill: false,
+                            tension: 0.4,
+                            pointRadius: 3,
+                            pointHoverRadius: 5,
+                            borderDash: [5, 5]
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            align: 'end',
+                            rtl: true,
+                            labels: {
+                                font: { family: 'IBM Plex Sans Arabic', size: 13, weight: '600' },
+                                padding: 15,
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleFont: { family: 'IBM Plex Sans Arabic', size: 14, weight: 'bold' },
+                            bodyFont: { family: 'IBM Plex Sans Arabic', size: 13 },
+                            padding: 12,
+                            cornerRadius: 8,
+                            displayColors: true,
+                            rtl: true,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + formatNumber(context.parsed.y);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { family: 'IBM Plex Sans Arabic', size: 12 } }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(0, 0, 0, 0.05)' },
+                            ticks: {
+                                font: { family: 'IBM Plex Sans Arabic', size: 12 },
+                                callback: function(value) { return formatNumber(value); }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        window.addEventListener('load', function() {
+            updateChart([], []);
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</body>
+</html>
